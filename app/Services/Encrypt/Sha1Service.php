@@ -12,8 +12,8 @@ namespace App\Services\Encrypt;
 
 class Sha1Service implements RobotEncryptInterface
 {
-    public function encrypt(PolicyEncrypt $policyEncrypt)
+    public function encrypt(string $string)
     {
-        return sha1($policyEncrypt->string);
+        return sha1($string);
     }
 }

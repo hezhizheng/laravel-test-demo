@@ -10,10 +10,18 @@
 namespace App\Services\Encrypt;
 
 
+use App\User;
+
 class Md5Service implements RobotEncryptInterface
 {
-    public function encrypt(PolicyEncrypt $policyEncrypt)
+    protected $user;
+    public function __construct()
     {
-        return md5($policyEncrypt->string);
+        $this->user = new User();
+    }
+
+    public function encrypt(string $string)
+    {
+        return md5($string);
     }
 }

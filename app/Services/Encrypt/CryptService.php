@@ -12,8 +12,8 @@ namespace App\Services\Encrypt;
 
 class CryptService implements RobotEncryptInterface
 {
-    public function encrypt(PolicyEncrypt $policyEncrypt)
+    public function encrypt(string $string)
     {
-        return crypt($policyEncrypt->string);
+        return encrypt($string);
     }
 }

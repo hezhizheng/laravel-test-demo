@@ -12,5 +12,5 @@ namespace App\Services\Encrypt;
 
 interface RobotEncryptInterface
 {
-    public function encrypt(PolicyEncrypt $policyEncrypt);
+    public function encrypt(string $string);
 }

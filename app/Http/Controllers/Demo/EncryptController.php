@@ -11,6 +11,7 @@ namespace App\Http\Controllers\Demo;
 
 use App\Http\Controllers\Controller;
 
+use App\Services\Encrypt\EncryptFactory;
 use App\Services\Encrypt\PolicyEncrypt;
 use App\Services\Encrypt\RobotEncryptInterface;
 use Illuminate\Http\Request;
@@ -18,15 +19,25 @@ use Illuminate\Http\Request;
 
 class EncryptController extends Controller
 {
+    /** @var RobotEncryptInterface|PolicyEncrypt $policyEncrypt */
     protected $policyEncrypt;
 
-    public function __construct(RobotEncryptInterface $policyEncrypt)
+    public function __construct(PolicyEncrypt $policyEncrypt)
     {
         $this->policyEncrypt = $policyEncrypt;
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
     public function encrypt(Request $request)
     {
-       return $this->policyEncrypt->encrypt( new PolicyEncrypt($request) );
+        $string = $request->string;
+
+        $robot = EncryptFactory::create($request->type);
+
+        return $this->policyEncrypt->encrypt($robot, $string);
     }
 }
