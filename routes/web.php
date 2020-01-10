@@ -15,9 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::get('/demo/encrypt', function () {
-//    dd(2353425);
-//});
-
 Route::get('/demo/encrypt','Demo\EncryptController@encrypt');
-//Route::get('/demo/encrypt',['uses' => '\Demo\EncryptController@encrypt']);
+Route::get('/time','Demo\DebugController@time');
