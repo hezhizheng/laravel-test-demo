@@ -16,4 +16,4 @@ Route::get('/', function () {
 });
 
 Route::get('/demo/encrypt','Demo\EncryptController@encrypt');
-Route::get('/time','Demo\DebugController@time');
+Route::any('/time','Demo\DebugController@time');
