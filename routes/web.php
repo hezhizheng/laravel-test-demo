@@ -17,3 +17,4 @@ Route::get('/', function () {
 
 Route::get('/demo/encrypt','Demo\EncryptController@encrypt');
 Route::any('/time','Demo\DebugController@time');
+Route::any('/test-redis-lock','Demo\DebugController@testRedisLock');

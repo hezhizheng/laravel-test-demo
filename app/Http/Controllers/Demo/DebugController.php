@@ -10,12 +10,18 @@
 namespace App\Http\Controllers\Demo;
 
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
+use App\Services\Redis\RedisFuncService;
 
 
 class DebugController
 {
+    protected $redisFuncService;
+
+    public function __construct(RedisFuncService $redisFuncService)
+    {
+        $this->redisFuncService = $redisFuncService;
+    }
+
     /**
      * 返回微秒级流水
      * @link https://www.php.net/manual/zh/function.date.php
@@ -24,7 +30,7 @@ class DebugController
      */
     public function time()
     {
-//        $now = (new \DateTime())->format("YmdHisu");
+
         $now = $this->GenerateUniqueCode();
 
         logger($now);
@@ -33,19 +39,37 @@ class DebugController
 //            'time' => $now
 //        ]);
 
-        return compact('now','insert');
+        return compact('now', 'insert');
     }
 
     public function GenerateUniqueCode()
     {
         $microsecond = (new \DateTime())->format("YmdHisu");
 
-        // 6.0 推荐用 phpredis（C扩展） 了 不是 predis(纯php实现)
-        do{
-            $lock = Redis::set("GenerateUniqueCode:".$microsecond, "GenerateUniqueCode", 'NX', 'EX', 1);
-        }while (!$lock);
+        $lock = $this->redisFuncService->set("GenerateUniqueCode:" . $microsecond, RedisFuncService::LOCK_VALUE, 1);
+
+        if (!$lock) {
+            logger("重复：" . $microsecond);
+            return $this->GenerateUniqueCode();
+        }
 
         return $microsecond;
 
     }
+
+    public function testRedisLock()
+    {
+        $k = "xxx";
+        $v = "xxx";
+        $x = $this->redisFuncService->lock($k);
+
+        $y = null;
+
+        if (!$x) {
+            $y = $this->redisFuncService->unlock($k);
+        }
+
+        dd($x, $y);
+    }
+
 }
