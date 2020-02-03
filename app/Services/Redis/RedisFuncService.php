@@ -10,12 +10,20 @@
 namespace App\Services\Redis;
 
 
+use App\Services\Redis\RedisFuncInterface;
 use Illuminate\Support\Facades\Redis;
 
-class RedisFuncService
+class RedisFuncService implements RedisFuncInterface
 {
     const LOCK_VALUE = "lock";
     const LOCK_TTL = 60;
+
+//    protected $redisConfig;
+//
+//    public function __construct(array $redisConfig)
+//    {
+//        $this->redisConfig = $redisConfig;
+//    }
 
     /**
      * @param $key
