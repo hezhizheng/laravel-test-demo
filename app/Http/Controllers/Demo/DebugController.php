@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Demo;
 
 use App\Services\Redis\PolicyRedisFunc;
 use App\Services\Redis\RedisFuncService;
+use App\Services\Utils\Helper;
 
 
 class DebugController
@@ -32,7 +33,8 @@ class DebugController
     public function time()
     {
 
-        $now = $this->GenerateUniqueCode();
+//        $now = $this->GenerateUniqueCode();
+        $now = Helper::generateUniqueCode();
 
         logger($now);
 
