@@ -81,4 +81,32 @@ class DebugController
         dd($x, $y);
     }
 
+    public function dd()
+    {
+        $yieldAry = $this->yieldAry();
+
+        dd($yieldAry);
+        foreach ($yieldAry as $item )
+        {
+            echo $item."\n";
+        }
+
+    }
+
+    /**
+     * @return array|\Generator
+     */
+    private function yieldAry()
+    {
+        $ary = [];
+
+        // 800W 左右就凉了，跟ini的内存设定有关，这么大的数据
+        for ($i = 0; $i < 10000000; $i++) {
+//            yield array_push($ary, $i);
+            array_push($ary, $i);
+        }
+
+        return $ary;
+    }
+
 }
