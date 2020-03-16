@@ -34,4 +34,14 @@ class PolicyRedisFunc
     {
         return $this->redisFunc->unlock($key, $value);
     }
+
+    public function optimismLock(string $key, callable $function, string $value = RedisFuncService::LOCK_VALUE, int $ttl = RedisFuncService::LOCK_TTL)
+    {
+        return $this->redisFunc->optimismLock($key,$function,$value,$ttl);
+    }
+
+    public function pessimisticLock(string $key, callable $function, string $value = RedisFuncService::LOCK_VALUE, int $ttl = RedisFuncService::LOCK_TTL)
+    {
+        return $this->redisFunc->pessimisticLock($key,$function,$value,$ttl);
+    }
 }

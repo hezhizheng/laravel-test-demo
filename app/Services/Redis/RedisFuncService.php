@@ -67,4 +67,69 @@ end
 LUA;
         return Redis::eval($script, 1, $key, $value);
     }
+
+    /**
+     * 乐观锁
+     * @param string $key
+     * @param callable $function
+     * @param string $value
+     * @param int $ttl
+     * @throws \Exception
+     */
+    public function optimismLock(string $key, callable $function, string $value = RedisFuncService::LOCK_VALUE, int $ttl = RedisFuncService::LOCK_TTL)
+    {
+        try {
+            $lock = $this->lock($key,$value,$ttl);
+
+            if ( !$lock )
+            {
+                throw new \Exception("locking");
+            }
+            // 执行主程序
+            $function();
+            // 执行完毕，解锁
+            $this->unlock($key,$value);
+        }catch (\Exception $exception)
+        {
+            $this->unlock($key,$value);
+            throw new \Exception($exception->getMessage());
+        }
+    }
+
+
+    /**
+     * 悲观锁
+     * 常用于解决缓存击穿问题
+     * @param string $key
+     * @param callable $function
+     * @param string $value
+     * @param int $ttl
+     * @throws \Exception
+     */
+    public function pessimisticLock(string $key, callable $function, string $value = RedisFuncService::LOCK_VALUE, int $ttl = RedisFuncService::LOCK_TTL)
+    {
+        try {
+
+            do {
+                $lock = $this->lock($key, $value, $ttl);
+
+                if (!$lock) {
+                    // 继续等待拿锁成功
+                    usleep(5000); // 微妙
+                } else {
+                    // 拿锁成功直接跳出执行主程序
+                    break;
+                }
+
+            } while (!$lock);
+
+            // 执行主程序
+            $function();
+            // 执行完毕，解锁
+            $this->unlock($key, $value);
+        } catch (\Exception $exception) {
+            $this->unlock($key, $value);
+            throw new \Exception($exception->getMessage());
+        }
+    }
 }
