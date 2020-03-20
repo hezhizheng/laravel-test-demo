@@ -9,18 +9,16 @@
 
 namespace Tests\Unit;
 
-use App\Models\Time;
 use App\Services\Utils\Helper;
 
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class HelperTest extends TestCase
 {
     public function test1GenerateUniqueCode()
     {
-       $code = Helper::generateUniqueCode();
+        $code = Helper::generateUniqueCode();
 
-       $this->assertNotNull($code);
+        $this->assertNotNull($code);
     }
 }

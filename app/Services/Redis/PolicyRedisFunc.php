@@ -9,8 +9,6 @@
 
 namespace App\Services\Redis;
 
-use Illuminate\Http\Request;
-
 class PolicyRedisFunc
 {
     protected $redisFunc;
@@ -20,13 +18,19 @@ class PolicyRedisFunc
         $this->redisFunc = $redisFunc;
     }
 
-    public function set(string $key, string $value = RedisFuncService::LOCK_VALUE, int $ttl = RedisFuncService::LOCK_TTL)
-    {
+    public function set(
+        string $key,
+        string $value = RedisFuncService::LOCK_VALUE,
+        int $ttl = RedisFuncService::LOCK_TTL
+    ) {
         return $this->redisFunc->set($key, $value, $ttl);
     }
 
-    public function lock(string $key, string $value = RedisFuncService::LOCK_VALUE, int $ttl = RedisFuncService::LOCK_TTL)
-    {
+    public function lock(
+        string $key,
+        string $value = RedisFuncService::LOCK_VALUE,
+        int $ttl = RedisFuncService::LOCK_TTL
+    ) {
         return $this->redisFunc->lock($key, $value, $ttl);
     }
 
@@ -35,13 +39,21 @@ class PolicyRedisFunc
         return $this->redisFunc->unlock($key, $value);
     }
 
-    public function optimismLock(string $key, callable $function, string $value = RedisFuncService::LOCK_VALUE, int $ttl = RedisFuncService::LOCK_TTL)
-    {
-        return $this->redisFunc->optimismLock($key,$function,$value,$ttl);
+    public function optimismLock(
+        string $key,
+        callable $function,
+        string $value = RedisFuncService::LOCK_VALUE,
+        int $ttl = RedisFuncService::LOCK_TTL
+    ) {
+        return $this->redisFunc->optimismLock($key, $function, $value, $ttl);
     }
 
-    public function pessimisticLock(string $key, callable $function, string $value = RedisFuncService::LOCK_VALUE, int $ttl = RedisFuncService::LOCK_TTL)
-    {
-        return $this->redisFunc->pessimisticLock($key,$function,$value,$ttl);
+    public function pessimisticLock(
+        string $key,
+        callable $function,
+        string $value = RedisFuncService::LOCK_VALUE,
+        int $ttl = RedisFuncService::LOCK_TTL
+    ) {
+        return $this->redisFunc->pessimisticLock($key, $function, $value, $ttl);
     }
 }

@@ -33,7 +33,7 @@ class RedisFuncService implements RedisFuncInterface
      */
     public function set(string $key, string $value = self::LOCK_VALUE, int $ttl = self::LOCK_TTL)
     {
-        if ($ttl <= 0){
+        if ($ttl <= 0) {
             $ttl = self::LOCK_TTL;
         }
         return Redis::set($key, $value, "EX", $ttl, 'NX');
@@ -47,7 +47,7 @@ class RedisFuncService implements RedisFuncInterface
      */
     public function lock(string $key, string $value = self::LOCK_VALUE, int $ttl = self::LOCK_TTL)
     {
-        return $this->set($key,$value,$ttl);
+        return $this->set($key, $value, $ttl);
     }
 
     /**
@@ -68,32 +68,39 @@ LUA;
         return Redis::eval($script, 1, $key, $value);
     }
 
+
     /**
      * 乐观锁
      * @param string $key
      * @param callable $function
      * @param string $value
      * @param int $ttl
+     * @return mixed
      * @throws \Exception
      */
-    public function optimismLock(string $key, callable $function, string $value = RedisFuncService::LOCK_VALUE, int $ttl = RedisFuncService::LOCK_TTL)
-    {
+    public function optimismLock(
+        string $key,
+        callable $function,
+        string $value = RedisFuncService::LOCK_VALUE,
+        int $ttl = RedisFuncService::LOCK_TTL
+    ) {
         try {
-            $lock = $this->lock($key,$value,$ttl);
+            $lock = $this->lock($key, $value, $ttl);
 
-            if ( !$lock )
-            {
+            if (!$lock) {
+                logger("get lock fail return", compact('key'));
                 throw new \Exception("locking");
             }
             // 执行主程序
-            $function();
+            $action = $function();
             // 执行完毕，解锁
-            $this->unlock($key,$value);
-        }catch (\Exception $exception)
-        {
-            $this->unlock($key,$value);
+            $this->unlock($key, $value);
+        } catch (\Exception $exception) {
+            $this->unlock($key, $value);
             throw new \Exception($exception->getMessage());
         }
+
+        return $action;
     }
 
 
@@ -104,10 +111,15 @@ LUA;
      * @param callable $function
      * @param string $value
      * @param int $ttl
+     * @return mixed
      * @throws \Exception
      */
-    public function pessimisticLock(string $key, callable $function, string $value = RedisFuncService::LOCK_VALUE, int $ttl = RedisFuncService::LOCK_TTL)
-    {
+    public function pessimisticLock(
+        string $key,
+        callable $function,
+        string $value = RedisFuncService::LOCK_VALUE,
+        int $ttl = RedisFuncService::LOCK_TTL
+    ) {
         try {
 
             do {
@@ -115,6 +127,7 @@ LUA;
 
                 if (!$lock) {
                     // 继续等待拿锁成功
+                    logger("get lock fail waiting", compact('key'));
                     usleep(5000); // 微妙
                 } else {
                     // 拿锁成功直接跳出执行主程序
@@ -124,12 +137,14 @@ LUA;
             } while (!$lock);
 
             // 执行主程序
-            $function();
+            $action = $function();
             // 执行完毕，解锁
             $this->unlock($key, $value);
         } catch (\Exception $exception) {
             $this->unlock($key, $value);
             throw new \Exception($exception->getMessage());
         }
+
+        return $action;
     }
 }

@@ -21,17 +21,25 @@ class Helper
      */
     public static function generateUniqueCode()
     {
-        $microsecond = (new \DateTime())->format("YmdHisu");
-
         $redisFuncService = new PolicyRedisFunc(new RedisFuncService);
 
-        $lock = $redisFuncService->set("GenerateUniqueCode:" . $microsecond, RedisFuncService::LOCK_VALUE, 1);
+        $key = __CLASS__ . __FUNCTION__;
+        return $redisFuncService->pessimisticLock($key, function () {
+            return (new \DateTime())->format("YmdHisu");
+        });
+    }
 
-        if (!$lock) {
-            logger("重复：" . $microsecond);
-            return self::GenerateUniqueCode();
-        }
+    /**
+     *
+     * @return mixed
+     */
+    public static function generateUniqueCodeOptimism()
+    {
+        $redisFuncService = new PolicyRedisFunc(new RedisFuncService);
 
-        return $microsecond;
+        $key = __CLASS__ . __FUNCTION__;
+        return $redisFuncService->optimismLock($key, function () {
+            return (new \DateTime())->format("YmdHisu");
+        });
     }
 }

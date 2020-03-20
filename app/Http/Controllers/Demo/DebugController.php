@@ -33,14 +33,10 @@ class DebugController
     public function time()
     {
 
-//        $now = $this->GenerateUniqueCode();
-        $now = Helper::generateUniqueCode();
+//        $now = Helper::generateUniqueCode();
+        $now = Helper::generateUniqueCodeOptimism();
 
         logger($now);
-
-//        $insert = DB::table('time')->insert([
-//            'time' => $now
-//        ]);
 
         return compact('now', 'insert');
     }
