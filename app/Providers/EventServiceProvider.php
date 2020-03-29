@@ -11,12 +11,15 @@ class EventServiceProvider extends ServiceProvider
 {
     /**
      * The event listener mappings for the application.
-     *
+     * // php artisan event:generate
      * @var array
      */
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        'App\Events\TestEvent' => [
+            'App\Listeners\TestEventListener',
         ],
     ];
 
