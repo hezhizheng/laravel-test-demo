@@ -20,3 +20,6 @@ Route::any('/time','Demo\DebugController@time');
 Route::any('/test-redis-lock','Demo\DebugController@testRedisLock');
 
 Route::any('/dd','Demo\DebugController@dd');
+
+Route::resource('/events','Demo\EventController');
+Route::resource('/jobs','Demo\JobController');

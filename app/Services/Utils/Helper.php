@@ -15,7 +15,7 @@ use App\Services\Redis\RedisFuncService;
 class Helper
 {
     /**
-     * 生成唯一id(微秒级时间戳)
+     * 生成唯一id(微秒级时间戳),悲观锁/互斥
      * @return string
      * @throws \Exception
      */
@@ -30,7 +30,7 @@ class Helper
     }
 
     /**
-     *
+     * 生成唯一id(微秒级时间戳),乐光锁
      * @return mixed
      */
     public static function generateUniqueCodeOptimism()
@@ -41,5 +41,49 @@ class Helper
         return $redisFuncService->optimismLock($key, function () {
             return (new \DateTime())->format("YmdHisu");
         });
+    }
+
+
+    /**
+     * @param $message
+     * @param string $title
+     * @return array|bool|string
+     * @throws \Exception
+     */
+    public static function dingTalkRobot($message, $title = '测试')
+    {
+        $access_token = config('ding.reboot.token');
+        $webhook = "https://oapi.dingtalk.com/robot/send?access_token=" . $access_token;
+
+        if (is_array($message)) {
+            $message = json_encode($message);
+        }
+
+        $data = [
+            'msgtype' => 'markdown',
+            'markdown' => [
+                'title' => $title,
+                'text' => date('Y-m-d H:i:s') . "：\n" . "### " . $title . "\n" . $message,
+            ]
+        ];
+        $data_string = json_encode($data);
+
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $webhook);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json;charset=utf-8'));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // 线下环境不用开启curl证书验证, 未调通情况可尝试添加该代码
+            // curl_setopt ($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            // curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            $data = curl_exec($ch);
+            curl_close($ch);
+            return $data;
+        } catch (\Exception $exception) {
+            throw new \Exception($exception->getMessage());
+        }
     }
 }

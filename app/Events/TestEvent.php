@@ -14,6 +14,8 @@ class TestEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    protected $os;
+
     /**
      * Create a new event instance.
      *
@@ -22,7 +24,17 @@ class TestEvent
     public function __construct()
     {
         //
+        $this->os = [
+            'php_os' => PHP_OS,
+            'php_uname' => php_uname('s'),
+        ];
     }
+
+    public function getOS()
+    {
+        return $this->os;
+    }
+
 
     /**
      * Get the channels the event should broadcast on.
@@ -31,6 +43,6 @@ class TestEvent
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel(__CLASS__); // channel-name
     }
 }
