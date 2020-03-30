@@ -18,7 +18,25 @@ class JobController extends Controller
     public function index()
     {
         logger(__CLASS__.__FUNCTION__);
-        DingTalk::dispatch();
+
+        $data = [
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9',
+            '10',
+        ];
+
+        foreach ( $data as $datum )
+        {
+            logger("datum",[$datum]);
+            DingTalk::dispatch([$datum]);
+        }
         dump(__CLASS__.__FUNCTION__);
     }
 }
