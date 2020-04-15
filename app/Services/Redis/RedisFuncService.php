@@ -10,7 +10,6 @@
 namespace App\Services\Redis;
 
 
-use App\Services\Redis\RedisFuncInterface;
 use Illuminate\Support\Facades\Redis;
 
 class RedisFuncService implements RedisFuncInterface
@@ -18,12 +17,15 @@ class RedisFuncService implements RedisFuncInterface
     const LOCK_VALUE = "lock";
     const LOCK_TTL = 60;
 
-//    protected $redisConfig;
-//
-//    public function __construct(array $redisConfig)
-//    {
-//        $this->redisConfig = $redisConfig;
-//    }
+    protected $client = null;
+
+    public $redisConnectName = '';
+
+    public function __construct(string $redisConnectName = '')
+    {
+        $this->redisConnectName = $redisConnectName;
+        $this->client = Redis::connection($this->redisConnectName);
+    }
 
     /**
      * @param $key
@@ -34,10 +36,29 @@ class RedisFuncService implements RedisFuncInterface
     public function set(string $key, string $value = self::LOCK_VALUE, int $ttl = self::LOCK_TTL)
     {
         if ($ttl <= 0) {
+            // forever set or setex
+            return $this->client->set($key, $value);
+        }
+        return $this->client->set($key, $value, "EX", $ttl, 'NX');
+    }
+
+    /**
+     * set 会过期的 redis key
+     * @param string $key
+     * @param string $value
+     * @param int $ttl
+     * @return mixed
+     */
+    public function setExpireEx(string $key, string $value = self::LOCK_VALUE, int $ttl = self::LOCK_TTL)
+    {
+        if ($ttl <= 0) {
             $ttl = self::LOCK_TTL;
         }
-        return Redis::set($key, $value, "EX", $ttl, 'NX');
+
+        // todo: return $this->client->expire($key,777); 可用
+        return $this->client->set($key, $value, "EX", $ttl);
     }
+
 
     /**
      * @param $key
@@ -47,6 +68,9 @@ class RedisFuncService implements RedisFuncInterface
      */
     public function lock(string $key, string $value = self::LOCK_VALUE, int $ttl = self::LOCK_TTL)
     {
+        if ($ttl <= 0) {
+            $ttl = self::LOCK_TTL;
+        }
         return $this->set($key, $value, $ttl);
     }
 
@@ -65,7 +89,7 @@ else
     return 0
 end
 LUA;
-        return Redis::eval($script, 1, $key, $value);
+        return $this->client->eval($script, 1, $key, $value);
     }
 
 
@@ -83,7 +107,8 @@ LUA;
         callable $function,
         string $value = RedisFuncService::LOCK_VALUE,
         int $ttl = RedisFuncService::LOCK_TTL
-    ) {
+    )
+    {
         try {
             $lock = $this->lock($key, $value, $ttl);
 
@@ -119,7 +144,8 @@ LUA;
         callable $function,
         string $value = RedisFuncService::LOCK_VALUE,
         int $ttl = RedisFuncService::LOCK_TTL
-    ) {
+    )
+    {
         try {
 
             do {

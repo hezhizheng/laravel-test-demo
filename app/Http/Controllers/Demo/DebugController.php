@@ -19,8 +19,12 @@ class DebugController
 {
     protected $redisFuncService;
 
-    public function __construct(RedisFuncService $redisFuncService)
+    protected $redisConnectName = 'default2';
+
+    public function __construct()
     {
+        $redisFuncService = new RedisFuncService($this->redisConnectName);
+
         $this->redisFuncService = new PolicyRedisFunc($redisFuncService);
     }
 
@@ -32,6 +36,7 @@ class DebugController
      */
     public function time()
     {
+        dd($this->redisFuncService->set('wq1eqeq', 'qeqw1eqw', -1));
 
 //        $now = Helper::generateUniqueCode();
         $now = Helper::generateUniqueCodeOptimism();
@@ -82,9 +87,8 @@ class DebugController
         $yieldAry = $this->yieldAry();
 
         dd($yieldAry);
-        foreach ($yieldAry as $item )
-        {
-            echo $item."\n";
+        foreach ($yieldAry as $item) {
+            echo $item . "\n";
         }
 
     }

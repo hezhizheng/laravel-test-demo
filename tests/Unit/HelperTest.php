@@ -19,6 +19,8 @@ class HelperTest extends TestCase
     {
         $code = Helper::generateUniqueCode();
 
+        dump($code);
+
         $this->assertNotNull($code);
     }
 }

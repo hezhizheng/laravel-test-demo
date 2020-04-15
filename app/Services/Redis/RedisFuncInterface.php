@@ -14,6 +14,8 @@ interface RedisFuncInterface
 {
     public function set(string $key, string $value = RedisFuncService::LOCK_VALUE, int $ttl = RedisFuncService::LOCK_TTL);
 
+    public function setExpireEx(string $key, string $value = RedisFuncService::LOCK_VALUE, int $ttl = RedisFuncService::LOCK_TTL);
+
     public function lock(string $key, string $value = RedisFuncService::LOCK_VALUE, int $ttl = RedisFuncService::LOCK_TTL);
 
     public function unlock(string $key, $value = RedisFuncService::LOCK_VALUE);
