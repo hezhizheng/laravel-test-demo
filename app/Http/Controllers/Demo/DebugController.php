@@ -25,7 +25,8 @@ class DebugController
     {
         $redisFuncService = new RedisFuncService($this->redisConnectName);
 
-        $this->redisFuncService = new PolicyRedisFunc($redisFuncService);
+//        $this->redisFuncService = new PolicyRedisFunc($redisFuncService);
+        $this->redisFuncService = $redisFuncService;
     }
 
     /**
@@ -36,10 +37,11 @@ class DebugController
      */
     public function time()
     {
-        dd($this->redisFuncService->set('wq1eqeq', 'qeqw1eqw', -1));
-
-//        $now = Helper::generateUniqueCode();
+        //        $now = Helper::generateUniqueCode();
         $now = Helper::generateUniqueCodeOptimism();
+
+        dd($this->redisFuncService->set('wq1eqeq', $now, -1));
+
 
         logger($now);
 
