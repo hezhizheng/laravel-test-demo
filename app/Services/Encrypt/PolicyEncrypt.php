@@ -13,9 +13,6 @@ use Illuminate\Http\Request;
 
 class PolicyEncrypt
 {
-    public $type = 'md5';
-    public $string = '';
-
     public function encrypt(RobotEncryptInterface $robotEncrypt, $string)
     {
         return $robotEncrypt->encrypt($string);

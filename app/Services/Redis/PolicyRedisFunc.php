@@ -1,5 +1,6 @@
 <?php
 /**
+ * @deprecated 实际有点多余
  * Description:
  * Author: DexterHo <dexter.ho.cn@gmail.com>
  * Date: 2020/1/9

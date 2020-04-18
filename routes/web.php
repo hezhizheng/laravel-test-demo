@@ -23,3 +23,5 @@ Route::any('/dd','Demo\DebugController@dd');
 
 Route::resource('/events','Demo\EventController');
 Route::resource('/jobs','Demo\JobController');
+
+Route::resource('/lock','Demo\LockController');
