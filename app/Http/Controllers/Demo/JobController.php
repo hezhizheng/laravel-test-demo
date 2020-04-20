@@ -35,7 +35,7 @@ class JobController extends Controller
         foreach ( $data as $datum )
         {
             logger("datum",[$datum]);
-            DingTalk::dispatch([$datum]);
+            DingTalk::dispatch([$datum.rand(1000000,9999999)]);
         }
         dump(__CLASS__.__FUNCTION__);
     }
