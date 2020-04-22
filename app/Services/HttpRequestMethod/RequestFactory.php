@@ -26,5 +26,10 @@ class RequestFactory
         return new self::$request_map[$_SERVER['REQUEST_METHOD']];
     }
 
+    public static function request($input)
+    {
+        return self::create()->request($input);
+    }
+
 
 }
