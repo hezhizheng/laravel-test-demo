@@ -23,16 +23,6 @@ class PolicyLock
     {
         $funcName = $funcName . 'Lock';
 
-        return $this->$funcName(... $arguments);
-    }
-
-    private function optimismLock(...$arguments)
-    {
-        return $this->lockInterface->optimismLock(... $arguments);
-    }
-
-    private function pessimisticLock(...$arguments)
-    {
-        return $this->lockInterface->pessimisticLock(... $arguments);
+        return $this->lockInterface->$funcName(... $arguments);
     }
 }

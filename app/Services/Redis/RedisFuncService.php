@@ -24,7 +24,14 @@ class RedisFuncService implements RedisFuncInterface
     public function __construct(string $redisConnectName = '')
     {
         $this->redisConnectName = $redisConnectName;
-        $this->client = Redis::connection($this->redisConnectName);
+    }
+
+    public function client()
+    {
+        if ($this->client === null) {
+            $this->client = Redis::connection($this->redisConnectName);
+        }
+        return $this->client;
     }
 
     /**
@@ -37,9 +44,9 @@ class RedisFuncService implements RedisFuncInterface
     {
         if ($ttl <= 0) {
             // forever set or setex
-            return $this->client->set($key, $value);
+            return $this->client()->set($key, $value);
         }
-        return $this->client->set($key, $value, "EX", $ttl, 'NX');
+        return $this->client()->set($key, $value, "EX", $ttl, 'NX');
     }
 
     /**
@@ -55,8 +62,8 @@ class RedisFuncService implements RedisFuncInterface
             $ttl = self::LOCK_TTL;
         }
 
-        // todo: return $this->client->expire($key,777); 可用
-        return $this->client->set($key, $value, "EX", $ttl);
+        // todo: return $this->client()->expire($key,777); 可用
+        return $this->client()->set($key, $value, "EX", $ttl);
     }
 
 
@@ -89,7 +96,7 @@ else
     return 0
 end
 LUA;
-        return $this->client->eval($script, 1, $key, $value);
+        return $this->client()->eval($script, 1, $key, $value);
     }
 
 

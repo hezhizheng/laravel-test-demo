@@ -38,7 +38,7 @@ class LockController extends Controller
 
         $pessimisticLock = $policyLock->lock('pessimistic', 'pessimistic', function () {
             logger('$pessimisticLock');
-            sleep(5);
+//            sleep(5);
             return '$pessimisticLock';
         });
 
