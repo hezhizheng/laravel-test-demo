@@ -23,4 +23,15 @@ class HelperTest extends TestCase
 
         $this->assertNotNull($code);
     }
+
+    public function test_binarySearch()
+    {
+        $ary = [1,2,3,4,5,6];
+        $t = 3;
+        $index = Helper::binarySearch($ary,$t);
+
+        dump($index);
+
+        $this->assertTrue(true);
+    }
 }

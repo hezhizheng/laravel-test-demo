@@ -18,6 +18,12 @@ class HttpGet implements RequestInterface
         // TODO: Implement request() method.
 
         var_dump($input);
+
+        $type = $_SERVER['REQUEST_METHOD'];
+
+        parse_str(file_get_contents('php://input'), $data);
+
+        $data = array_merge($_GET, $_POST, $data);
         return $input;
     }
 }
