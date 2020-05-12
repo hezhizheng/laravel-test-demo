@@ -86,4 +86,37 @@ class Helper
             throw new \Exception($exception->getMessage());
         }
     }
+
+    /**
+     * 二分查找
+     * todo 有问题！！！
+     * @param $ary
+     * @param $target
+     * @return int
+     */
+    public static function binarySearch($ary, $target)
+    {
+        $len = count($ary);
+
+//        return $len;
+        $left = 0;
+        $right = $len - 1;
+
+        while ($left <= $right) {
+            $m = intval(($left + $right) % 2);
+            dump($m);
+            if ($ary[$m] == $target )
+            {
+                return $m;
+            }elseif ( $ary[$m] < $target ){
+                $left = $m +1;
+            }elseif ($ary[$m] > $target){
+                $right = $m -1;
+            }
+
+        }
+
+        return -1;
+
+    }
 }
