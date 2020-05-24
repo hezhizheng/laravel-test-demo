@@ -15,14 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/demo/encrypt','Demo\EncryptController@encrypt');
-Route::any('/time','Demo\DebugController@time');
-Route::any('/test-redis-lock','Demo\DebugController@testRedisLock');
+Route::get('/demo/encrypt', 'Demo\EncryptController@encrypt');
+Route::any('/time', 'Demo\DebugController@time');
+Route::any('/test-redis-lock', 'Demo\DebugController@testRedisLock');
 
-Route::any('/dd','Demo\DebugController@dd');
+Route::any('/dd', 'Demo\DebugController@dd');
 
-Route::resource('/events','Demo\EventController');
-Route::resource('/jobs','Demo\JobController');
+Route::resource('/events', 'Demo\EventController');
+Route::resource('/jobs', 'Demo\JobController');
 
-Route::resource('/lock','Demo\LockController');
-Route::resource('/users','Demo\UserController');
+Route::resource('/lock', 'Demo\LockController');
+Route::resource('/users', 'Demo\UserController');
+
+Route::resource('/order', 'Demo\OrderController');
