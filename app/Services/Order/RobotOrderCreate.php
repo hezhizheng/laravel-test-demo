@@ -7,6 +7,9 @@ class RobotOrderCreate
 {
     private $infoUser = [];
 
+    // 用于存储上下文的依赖
+    public $context = [];
+
     private $behaviorList = [];
 
     public function __construct()
