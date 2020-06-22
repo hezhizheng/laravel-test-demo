@@ -87,36 +87,37 @@ class Helper
         }
     }
 
+
+
     /**
-     * 二分查找
-     * todo 有问题！！！
-     * @param $ary
-     * @param $target
-     * @return int
+     * 先取数组中间的值 floor((low+top)/2) 然后通过与所需查找的数字进行比较，
+     * 若比中间值大则将首值替换为中间位置下一个位置，继续第一步的操作；
+     * 若比中间值小，则将尾值替换为中间位置上一个位置，继续第一步操作
+     * 重复第二步操作直至找出目标数字
+     * @param array $container 必须是从小到大的顺序数组 e.g 1,2,3,4,5
+     * @param $search
+     * @return int|string
      */
-    public static function binarySearch($ary, $target)
+    public static function binaryQuery(array $container, $search)
     {
-        $len = count($ary);
-
-//        return $len;
-        $left = 0;
-        $right = $len - 1;
-
-        while ($left <= $right) {
-            $m = intval(($left + $right) % 2);
-            dump($m);
-            if ($ary[$m] == $target )
-            {
-                return $m;
-            }elseif ( $ary[$m] < $target ){
-                $left = $m +1;
-            }elseif ($ary[$m] > $target){
-                $right = $m -1;
+        $top = count($container);
+        $low = 0;
+        while ($low <= $top) {
+            $mid = intval(floor(($low + $top) / 2));
+            if (!isset($container[$mid])) {
+                return '没找着哦';
             }
-
+            if ($container[$mid] == $search) {
+                return $mid;
+            }
+            $container[$mid] < $search && $low = $mid + 1;
+            $container[$mid] > $search && $top = $mid - 1;
         }
+    }
 
-        return -1;
+    public function binaryQueryRecursive()
+    {
 
     }
+
 }
