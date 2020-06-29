@@ -35,4 +35,13 @@ class HelperTest extends TestCase
 
         $this->assertTrue(true);
     }
+
+    public function test_sort()
+    {
+        $ary = [4,3,0,2,1];
+        $index = Helper::bubbleSort($ary);
+
+        dump($index);
+        $this->assertTrue(true);
+    }
 }

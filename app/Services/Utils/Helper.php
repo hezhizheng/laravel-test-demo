@@ -140,8 +140,25 @@ class Helper
             $top = $mid - 1;
             return self::binaryQueryRecursive($container, $search, $top, $low);
         }
-
-
     }
 
+    /**
+     * 冒泡排序(从小到大、两两比较)
+     * @param array $container
+     * @return array
+     */
+    public static function bubbleSort(array $container)
+    {
+        $count = count($container);
+        for ($j = 1; $j < $count; $j++) {
+            for ($i = 0; $i < $count - $j; $i++) {
+                if ($container[$i] > $container[$i + 1]) {
+                    $temp = $container[$i];
+                    $container[$i] = $container[$i + 1];
+                    $container[$i + 1] = $temp;
+                }
+            }
+        }
+        return $container;
+    }
 }
