@@ -118,13 +118,15 @@ class Helper
      * 递归
      * @param array $container
      * @param $search
-     * @param int $top
+     * @param string $top
      * @param int $low
      * @return int|string
      */
-    public static function binaryQueryRecursive(array $container, $search, $top = -100, $low = 0)
+    public static function binaryQueryRecursive(array $container, $search, $top = 'default', $low = 0)
     {
-        $top = $top > -100 ? $top : count($container);
+        $top = is_numeric($top) ? $top : count($container);
+
+        // floor 返回不大于 value 的最接近的整数，将 value 的小数部分舍去取整
 
         $mid = intval(floor(($low + $top) / 2));
 
@@ -133,10 +135,10 @@ class Helper
         }
         if ($container[$mid] == $search) {
             return $mid;
-        } elseif ($container[$mid] < $search) {
+        } elseif ($container[$mid] < $search) { // 如果中间值小于搜索的值，则最小位置= mid + 1
             $low = $mid + 1;
             return self::binaryQueryRecursive($container, $search, $top, $low);
-        } elseif ($container[$mid] > $search) {
+        } elseif ($container[$mid] > $search) { // 如果中间值大于搜索额值，则最大位置= mid - 1
             $top = $mid - 1;
             return self::binaryQueryRecursive($container, $search, $top, $low);
         }
@@ -151,12 +153,19 @@ class Helper
     {
         $count = count($container);
         for ($j = 1; $j < $count; $j++) {
+            echo $j.PHP_EOL;
             for ($i = 0; $i < $count - $j; $i++) {
+                echo 'IIIIII'.$i.PHP_EOL;
                 if ($container[$i] > $container[$i + 1]) {
                     $temp = $container[$i];
                     $container[$i] = $container[$i + 1];
                     $container[$i + 1] = $temp;
                 }
+                // todo 一直对数组元素做两两比较
+//                if ( $i==0 && $j==2)
+//                {
+//                    dd(3,$container);
+//                }
             }
         }
         return $container;

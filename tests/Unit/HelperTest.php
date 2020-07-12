@@ -27,7 +27,7 @@ class HelperTest extends TestCase
     public function test_binaryQuery()
     {
         $ary = [1,2,3,4,5,6,7,8];
-        $t = 0;
+        $t = 7;
 //        $index = Helper::binaryQuery($ary,$t);
         $index = Helper::binaryQueryRecursive($ary,$t);
 
