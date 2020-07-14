@@ -44,4 +44,9 @@ class HelperTest extends TestCase
         dump($index);
         $this->assertTrue(true);
     }
+
+    public function test_preg()
+    {
+        Helper::testPreg();
+    }
 }

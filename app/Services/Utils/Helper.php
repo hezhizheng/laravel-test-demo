@@ -170,4 +170,25 @@ class Helper
         }
         return $container;
     }
+
+    public static function testPreg()
+    {
+        // 使用正则获取html里的href属性的值和a标签内的值，并以href值为key，a标签内的值为value存入二维数组中
+        $str = <<< HTML
+    <ul class="attr">
+        <li>
+            <a href="www.baidu.com">百度baidu</a>
+            <a href='www.tecent.com'>腾讯tengxun</a>
+            <a href="www.alibaba.com">阿里巴巴alibaba</a>
+        </li>
+    </ul>
+HTML;
+//        $pattern = "/href=\'([^\']*)|href=\"([^\"]*)/";
+        $pattern = '/href=[\'\"](.*)[\'\"]/';
+        $url = preg_match_all($pattern,$str,$c);
+
+        $p = "/>(.*)<\/a>/";
+        $name = preg_match_all($p,$str,$b);
+        dd($c,$b);
+    }
 }
