@@ -88,8 +88,9 @@ class DebugController
     {
         $yieldAry = $this->yieldAry();
 
-        dd($yieldAry);
+//        dd($yieldAry);
         foreach ($yieldAry as $item) {
+//            sleep(1);
             echo $item . "\n";
         }
 
@@ -103,12 +104,14 @@ class DebugController
         $ary = [];
 
         // 800W 左右就凉了，跟ini的内存设定有关，这么大的数据
-        for ($i = 0; $i < 10000000; $i++) {
-//            yield array_push($ary, $i);
-            array_push($ary, $i);
+        // yield可以输出,到了最大内存设定一样会抛出内存不足的问题
+        for ($i = 0; $i < 70000000; $i++) {
+//            usleep(500);
+            yield array_push($ary, $i); // 用 yield 不用返回值
+//            array_push($ary, $i);
         }
 
-        return $ary;
+//        return $ary;
     }
 
 }
