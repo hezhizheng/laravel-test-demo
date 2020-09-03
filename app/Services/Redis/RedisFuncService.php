@@ -46,6 +46,7 @@ class RedisFuncService implements RedisFuncInterface
             // forever set or setex
             return $this->client()->set($key, $value);
         }
+        // SET not-exists-key "value" NX EX 10086
         return $this->client()->set($key, $value, "EX", $ttl, 'NX');
     }
 
