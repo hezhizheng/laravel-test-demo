@@ -13,6 +13,8 @@ namespace App\Http\Controllers\Demo;
 use App\Services\Redis\PolicyRedisFunc;
 use App\Services\Redis\RedisFuncService;
 use App\Services\Utils\Helper;
+use Hzz\File;
+use Hzz\FreePic;
 
 
 class DebugController
@@ -112,6 +114,19 @@ class DebugController
         }
 
 //        return $ary;
+    }
+
+    public function freePic()
+    {
+        dump(request()->method());
+        if ( request()->method() == "POST" ) {
+            $path = File::singleton()->upload();
+            $url = FreePic::create()->upload($path);
+            File::singleton()->delete($path);
+            dd($url);
+        }
+
+       return view('free-pic.upload');
     }
 
 }

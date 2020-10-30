@@ -28,3 +28,5 @@ Route::resource('/lock', 'Demo\LockController');
 Route::resource('/users', 'Demo\UserController');
 
 Route::resource('/order', 'Demo\OrderController');
+
+Route::any('/free-pic', 'Demo\DebugController@freePic');
