@@ -121,8 +121,9 @@ class DebugController
         dump(request()->method());
         if ( request()->method() == "POST" ) {
             $path = File::singleton()->upload();
-            $url = FreePic::create()->upload($path);
+            $url = FreePic::create('img_bb')->upload($path);
             File::singleton()->delete($path);
+            echo "<a href='$url' target='_blank'>$url</a>";
             dd($url);
         }
 

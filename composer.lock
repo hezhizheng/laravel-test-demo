@@ -414,12 +414,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/hezhizheng/free-pic.git",
-                "reference": "e625ed6d57be24c55f6bfd455e0213a27dab5a9b"
+                "reference": "c1c1abee8d2a5c7185681cc042e57437eb50eef5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hezhizheng/free-pic/zipball/e625ed6d57be24c55f6bfd455e0213a27dab5a9b",
-                "reference": "e625ed6d57be24c55f6bfd455e0213a27dab5a9b",
+                "url": "https://api.github.com/repos/hezhizheng/free-pic/zipball/c1c1abee8d2a5c7185681cc042e57437eb50eef5",
+                "reference": "c1c1abee8d2a5c7185681cc042e57437eb50eef5",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -458,7 +458,7 @@
                 "issues": "https://github.com/hezhizheng/free-pic/issues",
                 "source": "https://github.com/hezhizheng/free-pic/tree/master"
             },
-            "time": "2020-10-30T09:59:58+00:00"
+            "time": "2020-11-01T05:34:18+00:00"
         },
         {
             "name": "laravel/framework",
