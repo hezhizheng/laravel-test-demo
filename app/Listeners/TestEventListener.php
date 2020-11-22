@@ -48,8 +48,9 @@ class TestEventListener implements ShouldQueue
      */
     public function handle(TestEvent $event)
     {
-        $send = Helper::dingTalkRobot($event->getOS(), __CLASS__ . " " . __FUNCTION__);
+        $send = Helper::dingTalkRobot($event->getOS(), __CLASS__ . " " . __FUNCTION__." ".date('Y-m-d H:i:s'));
 
+        logger([$send]);
         return $send;
     }
 }
