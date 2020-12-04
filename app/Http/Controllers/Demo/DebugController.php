@@ -23,9 +23,10 @@ class DebugController
 
     protected $redisConnectName = 'default2';
 
-    public function __construct()
+    public function __construct(RedisFuncService $redisFuncService)
     {
-        $redisFuncService = new RedisFuncService($this->redisConnectName);
+//        $redisFuncService = new RedisFuncService($this->redisConnectName);
+        $redisFuncService->redisConnectName = $this->redisConnectName;
 
 //        $this->redisFuncService = new PolicyRedisFunc($redisFuncService);
         $this->redisFuncService = $redisFuncService;
