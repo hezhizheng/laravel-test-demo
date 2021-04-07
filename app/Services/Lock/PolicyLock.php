@@ -14,9 +14,12 @@ class PolicyLock
 {
     private $lockInterface;
 
+    public $service;
+
     public function __construct(LockInterface $lockInterface)
     {
         $this->lockInterface = $lockInterface;
+        $this->service = $lockInterface;
     }
 
     public function lock(string $funcName, ...$arguments)
