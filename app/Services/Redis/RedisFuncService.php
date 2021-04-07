@@ -19,14 +19,14 @@ class RedisFuncService implements RedisFuncInterface
 
     protected $client = null;
 
-    public $redisConnectName = '';
+    public $redisConnectName = null;
 
-    public function __construct(string $redisConnectName = '')
+    public function __construct()
     {
-        $this->redisConnectName = $redisConnectName;
+//        $this->redisConnectName = '';
     }
 
-    public function client()
+    private function client()
     {
         if ($this->client === null) {
             $this->client = Redis::connection($this->redisConnectName);
