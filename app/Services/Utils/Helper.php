@@ -191,4 +191,25 @@ HTML;
         $name = preg_match_all($p,$str,$b);
         dd($c,$b);
     }
+
+
+    /**
+     * （两数之和）写一个函数，从任意数组中如 ：[1,2,3,4,5] ，找出相加等于指定值的元素角标，如 指定值为9，则输出为[3,4];
+     * @param array $items
+     * @param int $target
+     * @return array|string
+     */
+    public static function find_value_sum_equal_target_sub(array $items, int $target)
+    {
+        $count = count($items);
+        for ($i = 0; $i < $count; $i++) {
+            $sub = $target - $items[$i];
+            if (in_array($sub, $items) && $sub !== $items[$i])  // 避免自己+自己
+            {
+                return [array_search($items[$i], $items), array_search($sub, $items)];
+            }
+        }
+
+        return '没找到'; // 没找到
+    }
 }

@@ -49,4 +49,13 @@ class HelperTest extends TestCase
     {
         Helper::testPreg();
     }
+
+    public function test_find_value_sum_equal_target_sub()
+    {
+       $test = Helper::find_value_sum_equal_target_sub([0,2,4,5,6,1],-1);
+
+       var_dump($test);
+
+       $this->assertTrue(true);
+    }
 }
