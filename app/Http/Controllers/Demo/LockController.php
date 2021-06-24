@@ -30,7 +30,11 @@ class LockController extends Controller
         $policyLock = new PolicyLock(new RedisLock('default2'));
 //        $policyLock = new PolicyLock(new FileLock());
 
-        $pessimisticLock = $policyLock->service->pessimisticLock('pessimistic',function (){
+//        $pessimisticLock = $policyLock->service->pessimisticLock('pessimistic',function (){
+//            return '$pessimisticLock'.'service';
+//        });
+
+        $pessimisticLock = $policyLock->serve()->pessimisticLock('pessimistic',function (){
             return '$pessimisticLock'.'service';
         });
 

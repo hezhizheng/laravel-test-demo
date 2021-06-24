@@ -89,26 +89,16 @@ class DebugController
 
     public function dd()
     {
-//        var_dump(memory_get_usage()/1024/1024);
-//        $ac = Helper::codeUseInfo(function (){
-//            $yieldAry = $this->yieldAry();
-//            foreach ($yieldAry as $item) {
-//                echo $item . "\n";
-//            }
-//        });
-//        var_dump(memory_get_usage()/1024/1024);
-//        dd($ac);
-//
-        var_dump("start",memory_get_usage()/1024/1024);
-        $yieldAry = $this->yieldAry();
 
-//        dd($yieldAry);
+
+        $s = memory_get_usage()/1024/1024;
+        dump("start",$s);
+        $yieldAry = $this->yieldAry();
         foreach ($yieldAry as $item) {
-//            sleep(1);
             echo $item . "\n";
         }
-
-        var_dump("end",memory_get_usage()/1024/1024);
+        $e = memory_get_usage()/1024/1024;
+        dump("end",$e);
 
     }
 
@@ -121,16 +111,15 @@ class DebugController
 
         // 800W 左右就凉了，跟ini的内存设定有关，这么大的数据
         // yield可以输出,到了最大内存设定一样会抛出内存不足的问题
-        for ($i = 0; $i < 800000; $i++) {
-//            usleep(500);
+        for ($i = 0; $i < 50000; $i++) {
 //            yield array_push($ary, $i); // 用 yield 不用返回值
-//            $ary[] = $i;
+            $ary[] = time();
 //            array_push($ary, $i);
-            yield $i;
+//            yield time();
 //            array_push($ary, $i);
         }
 
-//        return $ary;
+        return $ary;
     }
 
     public function freePic()

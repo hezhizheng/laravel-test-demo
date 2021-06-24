@@ -218,22 +218,23 @@ HTML;
      * @param callable $function
      * @return array
      */
-    public static function codeUseInfo(callable $function): array
+    public static function codeExecInfo(callable $function): array
     {
         $start_time = microtime(true);
-//        $start_memory = memory_get_usage()/1024/1024;
-        // todo ：一定要有输出？
-//        dump("程序执行前内存：".$start_memory);
+        $start_memory = memory_get_usage()/1024/1024;
+
+        //dump("程序执行前内存：".$start_memory);
 
         $func = $function();
 
         $enr_time = microtime(true);
-//        $end_memory = memory_get_usage()/1024/1024;
-//        dump("程序执行后内存：".$end_memory);
+        $end_memory = memory_get_usage()/1024/1024;
+        //dump("程序执行后内存：".$end_memory);
 
         $used_time = "耗时：".bcsub($enr_time,$start_time,3)." s";
-//        $used_memory = "内存使用：".bcsub($end_memory,$start_memory,6)." mb";
+        $used_memory = "内存使用：".bcsub($end_memory,$start_memory,6)." mb";
 
+        // todo:hzz 这样使用 memory_get_usage 无法算出真实内存的消耗 暂不知到为何
         return compact('func','used_time','used_memory');
     }
 }

@@ -16,10 +16,21 @@ class PolicyLock
 
     public $service;
 
+    private $serve;
+
     public function __construct(LockInterface $lockInterface)
     {
         $this->lockInterface = $lockInterface;
         $this->service = $lockInterface;
+        $this->serve = $lockInterface;
+    }
+
+    /**
+     * @return LockInterface
+     */
+    public function serve() :LockInterface
+    {
+        return $this->serve;
     }
 
     public function lock(string $funcName, ...$arguments)
